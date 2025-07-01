@@ -3,21 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bloodline RPG</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Bloodline Ashaterra</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="game-container">
-    <h1>🌟 Bloodline: Ashaterra Web RPG</h1>
-    <div id="status"></div>
-    <div id="menu">
-      <button onclick="startBattle()">⚔️ Battle</button>
-      <button onclick="viewStatus()">📊 Status</button>
-      <button onclick="openShop()">🛒 Shop</button>
-      <button onclick="useInventory()">🎒 Inventory</button>
+  <div class="login-screen" id="loginScreen">
+    <h1>🎮 Bloodline Ashaterra</h1>
+    <input type="text" id="username" placeholder="Enter Username"/>
+    <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4"/>
+    <button onclick="login()">🔓 Login</button>
+    <button onclick="loginAsGuest()">🎲 Play as Guest (1 Day)</button>
+    <div class="login-options">
+      <button>📘 Facebook</button>
+      <button>🍎 Apple</button>
+      <button>🔍 Google</button>
     </div>
-    <pre id="log"></pre>
   </div>
+
+  <div class="game-screen" id="gameScreen" style="display:none;">
+    <header>
+      <h2>🌟 Welcome, <span id="playerName"></span></h2>
+      <p>ID: <span id="playerId"></span> | Level: <span id="playerLevel"></span></p>
+    </header>
+    <nav>
+      <button onclick="enterBattle()">⚔️ Battle</button>
+      <button onclick="openInventory()">🎒 Inventory</button>
+      <button onclick="openShop()">🛒 Shop</button>
+      <button onclick="viewQuests()">📜 Quests</button>
+      <button onclick="exploreMinimap()">🗺️ Minimap</button>
+    </nav>
+    <section id="gameContent">
+      <p>🧙‍♂️ Ready for your next adventure?</p>
+    </section>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

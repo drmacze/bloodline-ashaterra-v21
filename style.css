@@ -1,40 +1,58 @@
 body {
-  background: #300000;
-  color: #fff;
-  font-family: 'Courier New', monospace;
-  margin: 0; padding: 0;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e0000, #400101);
+  color: #fdfdfd;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: 100vh;
 }
-.game-container {
-  background: #400000;
+
+.login-screen, .game-screen {
+  max-width: 600px;
+  margin-top: 40px;
   padding: 20px;
-  border: 2px solid #900;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 15px;
+  box-shadow: 0 0 10px #900;
   text-align: center;
 }
-button {
+
+input {
+  padding: 10px;
   margin: 5px;
-  padding: 10px;
-  font-size: 1em;
-  background: #900;
-  color: #fff;
+  width: 80%;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 16px;
 }
+
+button {
+  padding: 10px 20px;
+  margin: 8px 4px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff4444;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 button:hover {
-  background: #c00;
+  background-color: #ff2222;
 }
-pre {
-  text-align: left;
-  background: #222;
-  padding: 10px;
+
+.login-options {
   margin-top: 10px;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav button {
+  margin: 5px;
 }

@@ -1,84 +1,79 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: red; icon-glyph: magic;
 let player = {
-  name: "Hero",
+  name: '',
+  id: '',
   level: 1,
   exp: 0,
-  maxExp: 100,
-  hp: 100,
-  atk: 10,
-  def: 5,
   gold: 100,
-  inventory: { potion: 1 }
+  guest: false,
+  created: Date.now()
 };
 
-function log(text) {
-  document.getElementById("log").textContent += text + "\n";
-}
-
-function updateStatus() {
-  const s = player;
-  document.getElementById("status").innerHTML =
-    `👤 ${s.name} | ⭐ Lv.${s.level} | ❤️ ${s.hp} | ⚔️ ${s.atk} | 🛡️ ${s.def} | 💰 ${s.gold}`;
-}
-
-function startBattle() {
-  const enemy = { name: "Goblin", hp: 30, atk: 8 };
-  log(`⚔️ Battle started vs ${enemy.name}`);
-  while (enemy.hp > 0 && player.hp > 0) {
-    enemy.hp -= player.atk;
-    player.hp -= Math.max(0, enemy.atk - player.def);
-  }
-  if (player.hp > 0) {
-    player.exp += 30;
-    player.gold += 20;
-    log("🏆 Victory! +30 EXP, +20 Gold");
-    levelUp();
+function login() {
+  const name = document.getElementById("username").value;
+  const pin = document.getElementById("pin").value;
+  if (name && pin.length === 4) {
+    player.name = name;
+    player.id = "ID-" + Math.floor(Math.random() * 100000);
+    localStorage.setItem("playerData", JSON.stringify(player));
+    startGame();
   } else {
-    player.hp = 100;
-    log("💀 You lost! Respawned with 100 HP.");
-  }
-  updateStatus();
-}
-
-function levelUp() {
-  while (player.exp >= player.maxExp) {
-    player.exp -= player.maxExp;
-    player.level++;
-    player.maxExp = Math.floor(player.maxExp * 1.25);
-    player.hp += 20;
-    player.atk += 3;
-    player.def += 2;
-    log(`⭐ Leveled up to Lv.${player.level}!`);
+    alert("Please enter name and 4-digit PIN");
   }
 }
 
-function viewStatus() {
-  updateStatus();
-  log("📊 Status viewed.");
+function loginAsGuest() {
+  player.name = "Guest";
+  player.id = "GUEST-" + Date.now();
+  player.guest = true;
+  player.created = Date.now();
+  localStorage.setItem("playerData", JSON.stringify(player));
+  startGame();
+}
+
+function startGame() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("gameScreen").style.display = "block";
+  const p = JSON.parse(localStorage.getItem("playerData"));
+  if (p.guest && Date.now() - p.created > 86400000) {
+    alert("Guest trial expired!");
+    location.reload();
+    return;
+  }
+  document.getElementById("playerName").textContent = p.name;
+  document.getElementById("playerId").textContent = p.id;
+  document.getElementById("playerLevel").textContent = p.level;
+}
+
+function enterBattle() {
+  document.getElementById("gameContent").innerHTML = "⚔️ You entered a battle!";
+}
+
+function openInventory() {
+  document.getElementById("gameContent").innerHTML = "🎒 Your inventory is empty (soon)";
 }
 
 function openShop() {
-  if (player.gold >= 50) {
-    player.gold -= 50;
-    player.inventory.potion++;
-    log("🛒 Bought Potion (+1)");
-  } else {
-    log("❌ Not enough gold for potion.");
-  }
-  updateStatus();
+  document.getElementById("gameContent").innerHTML = "🛒 Shop is under construction!";
 }
 
-function useInventory() {
-  if (player.inventory.potion > 0) {
-    player.hp += 50;
-    player.inventory.potion--;
-    log("🧪 Used Potion (+50 HP)");
-  } else {
-    log("🎒 No potions left.");
-  }
-  updateStatus();
+function viewQuests() {
+  document.getElementById("gameContent").innerHTML = "📜 No quests yet!";
 }
 
-window.onload = updateStatus;
+function exploreMinimap() {
+  document.getElementById("gameContent").innerHTML = "🗺️ Exploring minimap...";
+}
+
+window.onload = () => {
+  const saved = localStorage.getItem("playerData");
+  if (saved) {
+    const p = JSON.parse(saved);
+    if (p.guest && Date.now() - p.created > 86400000) {
+      alert("Guest trial expired!");
+      localStorage.removeItem("playerData");
+    } else {
+      player = p;
+      startGame();
+    }
+  }
+};
