@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Elder Runa",
+    "role": "Quest Giver",
+    "dialog": "Selamat datang di kamp."
+  },
+  {
+    "id": 2,
+    "name": "Jiro the Blacksmith",
+    "role": "Merchant",
+    "dialog": "Butuh senjata? Aku bisa bantu."
+  }
+]
