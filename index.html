@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bloodline Ashaterra</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="login-screen" id="loginScreen">
-    <h1>🎮 Bloodline Ashaterra</h1>
-    <input type="text" id="username" placeholder="Enter Username"/>
-    <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4"/>
-    <button onclick="login()">🔓 Login</button>
-    <button onclick="loginAsGuest()">🎲 Play as Guest (1 Day)</button>
-    <div class="login-options">
-      <button>📘 Facebook</button>
-      <button>🍎 Apple</button>
-      <button>🔍 Google</button>
+  <div id="login-screen" class="screen active">
+    <h1>🛡️ Bloodline: Ashaterra</h1>
+    <div id="login-options">
+      <input type="text" id="username" placeholder="Enter Username">
+      <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4">
+      <button onclick="login()">🔓 Login</button>
+      <button onclick="guestLogin()">🧪 Guest Trial</button>
+      <div class="social-login">
+        <button onclick="socialLogin('Google')">Google</button>
+        <button onclick="socialLogin('Facebook')">Facebook</button>
+        <button onclick="socialLogin('Apple')">Apple</button>
+      </div>
+      <p class="note">🔐 Guest Mode: Only valid for 1 day.</p>
     </div>
   </div>
 
-  <div class="game-screen" id="gameScreen" style="display:none;">
-    <header>
-      <h2>🌟 Welcome, <span id="playerName"></span></h2>
-      <p>ID: <span id="playerId"></span> | Level: <span id="playerLevel"></span></p>
-    </header>
-    <nav>
-      <button onclick="enterBattle()">⚔️ Battle</button>
-      <button onclick="openInventory()">🎒 Inventory</button>
-      <button onclick="openShop()">🛒 Shop</button>
-      <button onclick="viewQuests()">📜 Quests</button>
-      <button onclick="exploreMinimap()">🗺️ Minimap</button>
-    </nav>
-    <section id="gameContent">
-      <p>🧙‍♂️ Ready for your next adventure?</p>
-    </section>
+  <div id="avatar-selection" class="screen">
+    <h2>🎭 Pilih Avatar</h2>
+    <div id="avatars"></div>
+    <button onclick="confirmAvatar()">✅ Pilih Avatar</button>
+  </div>
+
+  <div id="main-menu" class="screen">
+    <h2>🌟 Selamat Datang, <span id="playerName">Player</span></h2>
+    <p>ID: <span id="playerID"></span></p>
+    <p>Referal Code: <span id="referralCode"></span></p>
+    <div class="menu-buttons">
+      <button onclick="startBattle()">🎮 Battle Mode</button>
+      <button onclick="showStatus()">📊 Status</button>
+      <button onclick="logout()">🚪 Logout</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
