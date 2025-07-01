@@ -1,15 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bloodline Ashaterra</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Bloodline RPG</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🌄 Bloodline: Ashaterra</h1>
-  <p>Welcome to the RPG World</p>
+  <div class="game-container">
+    <h1>🌟 Bloodline: Ashaterra Web RPG</h1>
+    <div id="status"></div>
+    <div id="menu">
+      <button onclick="startBattle()">⚔️ Battle</button>
+      <button onclick="viewStatus()">📊 Status</button>
+      <button onclick="openShop()">🛒 Shop</button>
+      <button onclick="useInventory()">🎒 Inventory</button>
+    </div>
+    <pre id="log"></pre>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
