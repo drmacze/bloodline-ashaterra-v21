@@ -1,68 +1,79 @@
-let player = null;
-
-window.onload = () => {
-  const loginScreen = document.getElementById("loginScreen");
-  const gameScreen = document.getElementById("gameScreen");
-  const saved = localStorage.getItem("playerData");
-
-  if (saved) {
-    const p = JSON.parse(saved);
-    if (p.guest && Date.now() - p.created > 86400000) {
-      alert("⏰ Masa percobaan Guest sudah habis. Silakan login.");
-      localStorage.removeItem("playerData");
-      loginScreen.style.display = "block";
-      gameScreen.style.display = "none";
-    } else {
-      player = p;
-      startGame();
-    }
-  } else {
-    loginScreen.style.display = "block";
-    gameScreen.style.display = "none";
-  }
+let player = {
+  name: '',
+  id: '',
+  level: 1,
+  exp: 0,
+  gold: 100,
+  guest: false,
+  created: Date.now()
 };
 
-document.getElementById("startBtn").addEventListener("click", () => {
-  const pin = document.getElementById("pinInput").value;
-  const method = document.querySelector('input[name="loginMethod"]:checked');
-  if (!pin || !method) return alert("Masukkan PIN dan pilih metode login.");
+function login() {
+  const name = document.getElementById("username").value;
+  const pin = document.getElementById("pin").value;
+  if (name && pin.length === 4) {
+    player.name = name;
+    player.id = "ID-" + Math.floor(Math.random() * 100000);
+    localStorage.setItem("playerData", JSON.stringify(player));
+    startGame();
+  } else {
+    alert("Please enter name and 4-digit PIN");
+  }
+}
 
-  const loginType = method.value;
-  const now = Date.now();
-
-  let guestLimit = loginType === "guest" ? now + 86400000 : null;
-  player = {
-    username: loginType === "guest" ? "Guest_" + Math.floor(Math.random() * 1000) : loginType.toUpperCase() + "_User",
-    loginType: loginType,
-    pin: pin,
-    created: now,
-    guest: loginType === "guest",
-    level: 1,
-    exp: 0,
-    gold: 100,
-    inventory: [],
-    skill: [],
-    quests: [],
-    id: "ID" + now.toString().slice(-6),
-    referal: "REF" + Math.floor(Math.random() * 10000),
-    hp: 100
-  };
-
+function loginAsGuest() {
+  player.name = "Guest";
+  player.id = "GUEST-" + Date.now();
+  player.guest = true;
+  player.created = Date.now();
   localStorage.setItem("playerData", JSON.stringify(player));
   startGame();
-});
+}
 
 function startGame() {
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("gameScreen").style.display = "block";
-  document.getElementById("playerName").innerText = player.username;
-  document.getElementById("playerId").innerText = "🆔 " + player.id;
-  document.getElementById("playerLevel").innerText = "⭐ Lv. " + player.level;
-  document.getElementById("playerGold").innerText = "💰 " + player.gold + " G";
-  document.getElementById("playerReferal").innerText = "🔗 " + player.referal;
+  const p = JSON.parse(localStorage.getItem("playerData"));
+  if (p.guest && Date.now() - p.created > 86400000) {
+    alert("Guest trial expired!");
+    location.reload();
+    return;
+  }
+  document.getElementById("playerName").textContent = p.name;
+  document.getElementById("playerId").textContent = p.id;
+  document.getElementById("playerLevel").textContent = p.level;
 }
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("playerData");
-  location.reload();
-});
+function enterBattle() {
+  document.getElementById("gameContent").innerHTML = "⚔️ You entered a battle!";
+}
+
+function openInventory() {
+  document.getElementById("gameContent").innerHTML = "🎒 Your inventory is empty (soon)";
+}
+
+function openShop() {
+  document.getElementById("gameContent").innerHTML = "🛒 Shop is under construction!";
+}
+
+function viewQuests() {
+  document.getElementById("gameContent").innerHTML = "📜 No quests yet!";
+}
+
+function exploreMinimap() {
+  document.getElementById("gameContent").innerHTML = "🗺️ Exploring minimap...";
+}
+
+window.onload = () => {
+  const saved = localStorage.getItem("playerData");
+  if (saved) {
+    const p = JSON.parse(saved);
+    if (p.guest && Date.now() - p.created > 86400000) {
+      alert("Guest trial expired!");
+      localStorage.removeItem("playerData");
+    } else {
+      player = p;
+      startGame();
+    }
+  }
+};
